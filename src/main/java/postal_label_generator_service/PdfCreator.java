@@ -51,7 +51,7 @@ public class PdfCreator {
         return newID;
     }
 
-    public static String convertToBytes(String filename) throws FileNotFoundException {
+    public static byte[] convertToBytes(String filename) throws FileNotFoundException {
         File file = new File(filename);
 
         FileInputStream fis = new FileInputStream(file);
@@ -68,7 +68,7 @@ public class PdfCreator {
         } catch (IOException ex) {
             System.out.println("jaj");
         }
-        byte[] bytes = bos.toByteArray();
-        return new String(bytes);
+        return bos.toByteArray();
+
     }
 }
