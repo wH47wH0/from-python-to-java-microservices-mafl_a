@@ -25,9 +25,8 @@ public class PostalLabelServiceController {
 
     private PostalLabelServiceController() {}
 
-    public String getPostalData(Request request, Response response) throws JSONException, FileNotFoundException {
-        String body = request.body();
-        JSONObject json = new JSONObject(response.body());
+    public static String getPostalData(Request request, Response response) throws JSONException, FileNotFoundException {
+        JSONObject json = new JSONObject(request.body());
         List<String> postalData = new ArrayList<>();
         postalData.add(json.getString("name"));
         postalData.add(json.getString("country"));
