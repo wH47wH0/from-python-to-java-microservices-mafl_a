@@ -7,9 +7,13 @@ import spark.Response;
 import spark.Request;
 import spark.Response;
 
+import javax.servlet.ServletOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static postal_label_generator_service.PdfCreator.convertPostalDataToPdf;
 
 
 public class PostalLabelServiceController {
@@ -25,7 +29,7 @@ public class PostalLabelServiceController {
 
     private PostalLabelServiceController() {}
 
-    public static String getPostalData(Request request, Response response) throws JSONException, FileNotFoundException {
+    public static int getPostalData(Request request, Response response) throws JSONException, IOException {
         JSONObject json = new JSONObject(request.body());
         List<String> postalData = new ArrayList<>();
         postalData.add(json.getString("name"));
@@ -34,9 +38,14 @@ public class PostalLabelServiceController {
         postalData.add(json.getString("address"));
         postalData.add(json.getString("zipcode"));
 
+        String fileName = convertPostalDataToPdf(postalData);
         response.header("Content-Type", "application/pdf");
-        String fileName = PdfCreator.convertPostalDataToPdf(postalData);
-        return PdfCreator.convertToBytes(fileName);
+        response.header("Content-Disposition", "attachment;filename="+ fileName);
+        ServletOutputStream outputStream = response.raw().getOutputStream();
+        outputStream.write(PdfCreator.convertToBytes(fileName));
+        outputStream.flush();
+        outputStream.close();
+        return 200;
     }
 
 }
