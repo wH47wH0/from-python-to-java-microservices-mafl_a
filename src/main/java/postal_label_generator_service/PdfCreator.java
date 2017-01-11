@@ -1,6 +1,7 @@
 package postal_label_generator_service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,9 +13,10 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 public class PdfCreator {
-    public static String convertPostalDataToPdf(List<String> postalData){
-        try{
-            UUID id = UUID.randomUUID();
+
+    public static String convertPostalDataToPdf(List<String> postalData) {
+        try {
+            String id = PdfCreator.generateId(postalData);
             String fileName = "PostalLabel" + id + ".pdf"; // name of our file
 
             PDDocument doc = new PDDocument();
@@ -23,7 +25,7 @@ public class PdfCreator {
             doc.addPage(page);
 
             PDPageContentStream content = new PDPageContentStream(doc, page);
-            for (int i=0,y_pos=740; i<5; i++,y_pos-=50) {
+            for (int i = 0, y_pos = 740; i < 5; i++, y_pos -= 50) {
                 content.beginText();
                 content.setFont(PDType1Font.HELVETICA, 40);
                 content.moveTextPositionByAmount(80, y_pos);
@@ -35,11 +37,18 @@ public class PdfCreator {
             doc.save(fileName);
             doc.close();
             return fileName;
-        }
-        catch(IOException | COSVisitorException e){
+        } catch(IOException | COSVisitorException e){
             System.out.println(e.getMessage());
         }
         return "";
+    }
+
+    private static String generateId(List<String> listOfStrings) {
+        String newID = "";
+        for(String elem : listOfStrings) {
+            newID = newID.concat(elem.substring(0, 2));
+        }
+        return newID;
     }
 
     public static String convertToBytes(String filename) throws FileNotFoundException {
