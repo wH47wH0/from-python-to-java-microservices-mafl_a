@@ -1,10 +1,7 @@
 package postal_label_generator_service;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -55,18 +52,16 @@ public class PdfCreator {
         File file = new File(filename);
 
         FileInputStream fis = new FileInputStream(file);
-        //System.out.println(file.exists() + "!!");
-        //InputStream in = resource.openStream();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
         try {
             for (int readNum; (readNum = fis.read(buf)) != -1; ) {
-                bos.write(buf, 0, readNum); //no doubt here is 0
-                //Writes len bytes from the specified byte array starting at offset off to this byte array output stream.
-                System.out.println("read " + readNum + " bytes,");
+                bos.write(buf, 0, readNum);
+//                # of bytes testprint
+//                System.out.println("read " + readNum + " bytes,");
             }
         } catch (IOException ex) {
-            System.out.println("jaj");
+            System.out.println("Something went wrong, when the program tried to convert pdf to bytearray");
         }
         return bos.toByteArray();
 
