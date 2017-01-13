@@ -26,7 +26,7 @@ public class PostalLabelServiceController {
 
     private PostalLabelServiceController() {}
 
-    public static int getPostalData(Request request, Response response) throws JSONException, IOException {
+    public int getPostalData(Request request, Response response) throws JSONException, IOException {
         JSONObject json = new JSONObject(request.body());
         List<String> postalData = new ArrayList<>();
         postalData.add(json.getString("name"));
