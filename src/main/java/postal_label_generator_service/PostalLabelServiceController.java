@@ -5,10 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import spark.Response;
 import spark.Request;
-import spark.Response;
-
 import javax.servlet.ServletOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
