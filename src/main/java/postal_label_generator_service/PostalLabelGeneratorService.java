@@ -8,7 +8,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
  */
 public class PostalLabelGeneratorService {
     public static void main(String[] args) {
-        post("/", PostalLabelServiceController::getPostalData);
+        post("/", PostalLabelServiceController.getInstance()::getPostalData);
         enableDebugScreen();
     }
 }
